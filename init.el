@@ -6,7 +6,7 @@
 (defvar inhibit-startup-message t)
 ;;
 (require 'package)
-;;;code
+;;;此项nil时候不会自动加载所有package
 (setq package-enable-at-startup nil)
 (show-paren-mode 1)
 ;;(add-to-list 'package-archives
@@ -17,7 +17,7 @@
 
 ;;(setq url-proxy-services '(("no_proxy" . "baidu.com")
   ;;                         ("http" . "127.0.0.1:8118")))
-(add-to-list 'load-path "~/.emacs.d/my/")
+(add-to-list 'load-path "~/.emacs.d/my/ndk4emacs-20200223001/")
 ;;
 ;;;(require 'smex)
 ;;(require 'flycheck-rtags)
@@ -31,7 +31,7 @@
   (package-install 'use-package))
 
 (require 'use-package)
-
+(require 'ndk4emacs)
 ;;(setq use-package-always-ensure t)
 ;;错误时候打开回溯栈
 ;;
@@ -130,6 +130,8 @@
   (progn
     ;;(set-variable 'rtags-path "/home/ququ/.emacs.d/rtags/bin")
     (set-variable 'rtags-path "/home/tonki/.emacs.d/rtags/bin")
+    (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
+    (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
     ;;funclis
     (defun use-rtags (&optional useFileManager)
       (and (rtags-executable-find "rc")
@@ -162,14 +164,16 @@
     ;; RTAGS 设置键位
     (define-key c-mode-base-map (kbd "M-.") 'rtags-find-symbol-at-point)
     (define-key c-mode-base-map (kbd "M-,") 'rtags-location-stack-back)
-    (define-key c-mode-base-map (kbd "M-m") 'rtags-find-references-at-point)
-    ;;(define-key c-mode-base-map (kbd "M-"
     (define-key c-mode-base-map (kbd "M-;") 'rtags-find-file)
+    (define-key c-mode-base-map (kbd "M-m") 'rtags-find-references-at-point)
+    (define-key c-mode-base-map (kbd "C-.") 'rtags-find-symbol)
+    (define-key c-mode-base-map (kbd "C-,") 'tags-find-references)
+    (define-key global-map (kbd "C-<") (function rtags-find-virtuals-at-point))
     ;;(define-key c-mode-base-map (kbd "M-;") (function tags-find-file))
     (define-key c-mode-base-map (kbd "M-<down>") 'rtags-next-match)
     ;;(define-key c-mode-base-map (kbd "C-.") (function tags-find-symbol))
-    (define-key c-mode-base-map (kbd "C-.") 'rtags-find-symbol)
-    (define-key c-mode-base-map (kbd "C-,") (function tags-find-references))
+    
+    
     (define-key c-mode-base-map (kbd "C-<") (function rtags-find-virtuals-at-point))
     (define-key c-mode-base-map (kbd "M-i") (function tags-imenu))
     (define-key global-map (kbd "M-.") (function tags-find-symbol-at-point))
@@ -177,12 +181,11 @@
     (define-key global-map (kbd "M-;") (function tags-find-file))
     (define-key global-map (kbd "C-.") (function tags-find-symbol))
     (define-key global-map (kbd "C-,") (function tags-find-references))
-    (define-key global-map (kbd "C-<") (function rtags-find-virtuals-at-point))
+
     (define-key global-map (kbd "M-i") (function tags-imenu))
     (define-key c-mode-base-map (kbd "<C-tab>") (function company-complete))
 					;    (define-key c-mode-base-map
-    (unless (rtags-executable-find "rc") (error "Binary rc is not installed!"))
-    (unless (rtags-executable-find "rdm") (error "Binary rdm is not installed!"))
+    
     (defun fontify-string (str mode)
       "Return STR fontified according to MODE."
       (with-temp-buffer
@@ -212,7 +215,7 @@
     (add-hook 'c-mode-hook 'rtags-eldoc-mode)
     (add-hook 'c++-mode-hook 'rtags-eldoc-mode)
     (setq rtags-autostart-diagnostics t)
-    (setq rtags-completions-enabled t)
+;;    (setq rtags-completions-enabled t)
     (rtags-diagnostics)
     (rtags-enable-standard-keybindings)
     (rtags-restart-process)
@@ -254,8 +257,8 @@
       (setq-local flycheck-check-syntax-automatically nil)
       (rtags-set-periodic-reparse-timeout 2.0)  ;; Run flycheck 2 seconds after being idle.
       )
-    (add-hook 'c-mode-hook #'setup-flycheck-rtags)
-    (add-hook 'c++-mode-hook #'setup-flycheck-rtags)
+    (add-hook 'c-mode-hook 'setup-flycheck-rtags)
+    (add-hook 'c++-mode-hook 'setup-flycheck-rtags)
     ))
 ;;;;;;rtags ending ##################
 
@@ -286,8 +289,11 @@
     (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
     (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    ;;    (global-set-key (kbd "C-v") 'ivy-scroll-down-command)
-    ;;    (global-set-key (kbd "M-v") 'ivy-scroll-up-command)
+    (global-set-key (kbd "<f6>") 'ivy-resume)
+    (global-set-key (kbd "C-c g") 'counsel-git)
+    ;;(global-set-key (kbd "C-x l") 'counsel-locate)
+    ;;(global-set-key (kbd "C-v") 'ivy-scroll-down-command)
+    ;;(global-set-key (kbd "M-v") 'ivy-scroll-up-command)
     ))
 (req-package avy
   :config
