@@ -169,22 +169,10 @@
     (define-key c-mode-base-map (kbd "C-.") 'rtags-find-symbol)
     (define-key c-mode-base-map (kbd "C-,") 'tags-find-references)
     (define-key global-map (kbd "C-<") (function rtags-find-virtuals-at-point))
-    ;;(define-key c-mode-base-map (kbd "M-;") (function tags-find-file))
     (define-key c-mode-base-map (kbd "M-<down>") 'rtags-next-match)
-    ;;(define-key c-mode-base-map (kbd "C-.") (function tags-find-symbol))
-    
-    
-    (define-key c-mode-base-map (kbd "C-<") (function rtags-find-virtuals-at-point))
     (define-key c-mode-base-map (kbd "M-i") (function tags-imenu))
-    (define-key global-map (kbd "M-.") (function tags-find-symbol-at-point))
-    (define-key global-map (kbd "M-,") (function tags-find-references-at-point))
-    (define-key global-map (kbd "M-;") (function tags-find-file))
-    (define-key global-map (kbd "C-.") (function tags-find-symbol))
-    (define-key global-map (kbd "C-,") (function tags-find-references))
-
-    (define-key global-map (kbd "M-i") (function tags-imenu))
     (define-key c-mode-base-map (kbd "<C-tab>") (function company-complete))
-					;    (define-key c-mode-base-map
+    ;(define-key c-mode-base-map
     
     (defun fontify-string (str mode)
       "Return STR fontified according to MODE."
