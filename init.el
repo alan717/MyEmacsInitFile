@@ -405,8 +405,8 @@
 (setq op/site-domain "http://alan717.github.io")
 (setq op/personal-github-link "https://github.com/alan717")                    ; if you want to show a personal github link.
 ;;(setq op/personal-avatar "assets/index.jpg")
-(setq op/site-main-title "我的部落格")
-(setq op/site-sub-title "行者的笔记.Blah blah...")
+(setq op/site-main-title "山门凯的部落格")
+(setq op/site-sub-title "Blah blah...")
 (setq op/theme 'mdo)
 
 
