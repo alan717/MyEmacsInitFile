@@ -18,6 +18,7 @@
 ;;(setq url-proxy-services '(("no_proxy" . "baidu.com")
   ;;                         ("http" . "127.0.0.1:8118")))
 (add-to-list 'load-path "~/.emacs.d/my/ndk4emacs-20200223001/")
+(add-to-list 'load-path "~/play/org-page/")
 ;;
 ;;;(require 'smex)
 ;;(require 'flycheck-rtags)
@@ -49,7 +50,7 @@
     ("732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e61752b5a3af12be08e99d076aedadd76052137560b7e684a8be2f8d2958edc3" "13d20048c12826c7ea636fbe513d6f24c0d43709a761052adbca052708798ce3" "26d49386a2036df7ccbe802a06a759031e4455f07bda559dcf221f53e8850e69" default)))
  '(package-selected-packages
    (quote
-    (dracula-theme counsel-projectile yasnippet avy counsel ivy subr-x window-numbering company-rtags flycheck-rtags moe-theme nyan-mode solarized-theme org-mode projectile cmake-mode irony company-irony flycheck-irony irony-eldoc use-package undo-tree counsel-projectile company anzu req-package flycheck org-page w3m mime-w3m mime-view dired ecb2 material-theme elpy))))
+    (company dracula-theme counsel-projectile yasnippet avy counsel ivy subr-x window-numbering company-rtags flycheck-rtags moe-theme nyan-mode solarized-theme org-mode projectile cmake-mode irony company-irony flycheck-irony irony-eldoc use-package undo-tree counsel-projectile anzu req-package flycheck  mime-view dired ecb2 material-theme elpy blacken ht))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -313,9 +314,38 @@
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (setq projectile-completion-system 'ivy)
     ))
+;; =============================
+;; python setup
+;; =============================
+;; enable elpy
+(req-package elpy
+  :require flycheck
+  :config
+  (progn
+    (elpy-enable  )
+    (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+    (add-hook 'elpy-mode-hook 'flycheck-mode)
+    (define-key elpy-mode-map (kbd "<f7>") (kbd "C-u C-c C-c"))
+    )
+  )
+
+;;------------------------------[blog]org-page---------------------
+(req-package org-page
+  :config
+  (progn
+    (setq op/repository-directory "~/play/blog/local_blog")
+    (setq op/site-domain "https://alan717.github.io")
+    (setq op/personal-github-link "https://github.com/alan717")                    ; if you want to show a personal github link.
+    ;;(setq op/personal-avatar "assets/index.jpg")
+    (setq op/site-main-title "山门凯的部落格")
+    (setq op/site-sub-title "Blah blah...")
+    (setq op/theme 'mdo)
+    (setq op/personal-baidu-analytics-id "6774ee74c7919ee29204eb7d81ecf787")
+))
+;;;-----------------------------[blog]org-page--------------------------
 
 (req-package-finish)
-;;req-package ending
+;;req-package ending 使用req-package必须在这个之前
 
 (global-hl-line-mode t)
 (global-linum-mode t)
@@ -323,7 +353,7 @@
 ;;;init.el end here
 
 ;;(load-theme 'moe-dark t)
-(load-theme 'dracula t)
+(load-theme 'material t)
 
 
 
@@ -397,38 +427,16 @@
 ;;           )
 ;;          ("blog" :components ("blog-notes" "blog-static"))
 ;;          ))
-;; =============================
-;; python setup
-;; =============================
-;; enable elpy
 
-(req-package elpy
-  (progn
-    (elpy-enable
-     ))
-  )
-;;------------------------------[blog]org-page---------------------
-
-(require 'org-page)
-(setq op/repository-directory "~/play/blog/local_blog")
-(setq op/site-domain "http://alan717.github.io")
-(setq op/personal-github-link "https://github.com/alan717")                    ; if you want to show a personal github link.
-;;(setq op/personal-avatar "assets/index.jpg")
-(setq op/site-main-title "山门凯的部落格")
-(setq op/site-sub-title "Blah blah...")
-(setq op/theme 'mdo)
-
-
-;;;-----------------------------[blog]org-page--------------------------
 
 
 
 ;;;-----------------------------[internet]w3m------------------------------
-(require 'w3m)
-(setq w3m-use-cookies t)
-(setq w3m-home-page "https://www.dogedoge.com")
-;;(require 'mime-w3m)
-(setq w3m-default-display-inline-images t)
+;; (require 'w3m)
+;; (setq w3m-use-cookies t)
+;; (setq w3m-home-page "https://www.dogedoge.com")
+;; ;;(require 'mime-w3m)
+;; (setq w3m-default-display-inline-images t)
 ;;(setq w3m-default-toggle-iniline-images t)
 
 ;;;-----------------------------[internet]w3m------------------------------
